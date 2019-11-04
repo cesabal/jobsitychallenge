@@ -5,24 +5,32 @@
         <div class="row">
             {{-- @include('admin.sidebar') --}}
 
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">Entries</div>
                     <div class="card-body">
-                        <a href="{{ url('/entries/create') }}" class="btn btn-success btn-sm" title="Add New Entry">
-                            <i class="fa fa-plus" aria-hidden="true"></i> Add New
-                        </a>
-
-                        <form method="GET" action="{{ url('/entries') }}" accept-charset="UTF-8" class="form-inline my-2 my-lg-0 float-right" role="search">
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="search" placeholder="Search..." value="{{ request('search') }}">
-                                <span class="input-group-append">
-                                    <button class="btn btn-secondary" type="submit">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
+                        <div class="row">
+                            <div class="col-md-8">
+                                @if( $userId )
+                                    <a href="{{ url('/entries/create') }}" class="btn btn-success btn-sm" title="Add New Entry">
+                                        <i class="fa fa-plus" aria-hidden="true"></i> Add New
+                                    </a>
+                                @endif
                             </div>
-                        </form>
+                            
+                            <div class="col-md-4">
+                            <form method="GET" action="{{ url('/entries') }}" accept-charset="UTF-8" class="form-inline my-2 my-lg-0 float-right" role="search">
+                                <div class="input-group">
+                                    <input type="text" class="form-control input-text" name="search" placeholder="Search..." value="{{ request('search') }}">
+                                    <span class="input-group-append">
+                                        <button class="btn btn-secondary" type="submit">
+                                            <i class="fa fa-search"> Search </i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
 
                         <br/>
                         <br/>
@@ -30,24 +38,36 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>#</th><th>Title</th><th>Content</th><th>Author</th><th>Actions</th>
+                                        <th>#</th><th>Title</th>
+                                        
+                                        @if( $userId )
+                                            <th>Actions</th>
+                                        @endif
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($entries as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->title }}</td><td>{{ $item->content }}</td><td>{{ $item->author }}</td>
                                         <td>
-                                            <a href="{{ url('/entries/' . $item->id) }}" title="View Entry"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
-                                            <a href="{{ url('/entries/' . $item->id . '/edit') }}" title="Edit Entry"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
-
-                                            <form method="POST" action="{{ url('/entries' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
-                                                {{ method_field('DELETE') }}
-                                                {{ csrf_field() }}
-                                                <button type="submit" class="btn btn-danger btn-sm" title="Delete Entry" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
-                                            </form>
+                                            <a href="{{ url('/entries/' . $item->id) }}" title="View Entry">
+                                                {{ $item->title }}
+                                            </a>
                                         </td>
+                                        {{-- <td>{{ $item->content }}</td> --}}
+                                        
+                                        @if( $userId )
+                                            <td>
+                                                <a href="{{ url('/entries/' . $item->id . '/edit') }}" title="Edit Entry"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+                                                <form method="POST" action="{{ url('/entries' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
+                                                        {{ method_field('DELETE') }}
+                                                        {{ csrf_field() }}
+                                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete Entry" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
+                                                    </form>
+                                            </td>
+                                        @endif
+
                                     </tr>
                                 @endforeach
                                 </tbody>

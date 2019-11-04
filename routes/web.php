@@ -11,12 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+// Routes of Auth created to php artisan make:auth
 Auth::routes();
 
+// Routes of Entris and home page
+Route::get('/', 'EntriesController@index');
 Route::get('/home', 'HomeController@index')->name('home');
-
 Route::resource('entries', 'EntriesController');

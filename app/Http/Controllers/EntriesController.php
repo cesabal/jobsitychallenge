@@ -11,6 +11,18 @@ use Illuminate\Support\Facades\Auth;
 
 class EntriesController extends Controller
 {
+
+    /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        // Apply security auth middleware conditions
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,8 +30,17 @@ class EntriesController extends Controller
      */
     public function index(Request $request)
     {
+
+        // Get the currently authenticated user...
+        $user = Auth::user();
+
+        // Get the currently authenticated user's ID...
+        $userId = Auth::id();
+
         $keyword = $request->get('search');
-        $perPage = 25;
+
+        // $perPage = $user ? 25 : 3;
+        $perPage = 3;
 
         if (!empty($keyword)) {
             $entries = Entry::where('title', 'LIKE', "%$keyword%")
@@ -27,10 +48,11 @@ class EntriesController extends Controller
                 ->orWhere('author', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage);
         } else {
-            $entries = Entry::latest()->paginate($perPage);
+
+            $entries = Entry::latest()->paginate( 3 );
         }
 
-        return view('entries.index', compact('entries'));
+        return view('entries.index', compact('entries', 'userId'));
     }
 
     /**
@@ -66,9 +88,9 @@ class EntriesController extends Controller
 
         $requestData['author'] = $userId;
         
-        Entry::create($requestData);
+        // Entry::create($requestData);
 
-        return redirect('entries')->with('flash_message', 'Entry added!');
+        // return redirect('entries')->with('flash_message', 'Entry added!');
     }
 
     /**
@@ -80,9 +102,15 @@ class EntriesController extends Controller
      */
     public function show($id)
     {
+        // Get the currently authenticated user...
+        $user = Auth::user();
+
+        // Get the currently authenticated user's ID...
+        $userId = Auth::id();
+
         $entry = Entry::findOrFail($id);
 
-        return view('entries.show', compact('entry'));
+        return view('entries.show', compact('entry', 'userId'));
     }
 
     /**
