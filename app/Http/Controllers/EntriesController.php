@@ -36,23 +36,54 @@ class EntriesController extends Controller
 
         // Get the currently authenticated user's ID...
         $userId = Auth::id();
-
+        
+        // The words to search
         $keyword = $request->get('search');
 
-        // $perPage = $user ? 25 : 3;
+        // Paginate this total
         $perPage = 3;
 
-        if (!empty($keyword)) {
+        // Search content by keyword, apply on tittle, content and author fields
+        if (!empty($keyword))
+        {
             $entries = Entry::where('title', 'LIKE', "%$keyword%")
                 ->orWhere('content', 'LIKE', "%$keyword%")
                 ->orWhere('author', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage);
-        } else {
-
+        }
+        else
+        {
             $entries = Entry::latest()->paginate( 3 );
         }
 
-        return view('entries.index', compact('entries', 'userId'));
+        // Determine if display or nor sidebar
+        $side = false;
+
+        return view('entries.index', compact('entries', 'userId', 'sidebar' ) );
+        
+    }
+
+
+    /**
+     * Display a listing of the resource for specific Autenticated user
+     *
+     * @return \Illuminate\View\View
+     */
+    public function entriesByUser(Request $request)
+    {
+
+        // Get the currently authenticated user...
+        $user = Auth::user();
+
+        // Get the currently authenticated user's ID...
+        $userId = Auth::id();
+
+        $perPage = 3;
+        
+        $entries = Entry::where('author', '=', "$userId")->paginate($perPage);
+        
+        $sidebar = true;
+        return view('entries.index', compact('entries', 'userId', 'sidebar'));
     }
 
     /**
@@ -88,9 +119,9 @@ class EntriesController extends Controller
 
         $requestData['author'] = $userId;
         
-        // Entry::create($requestData);
+        Entry::create($requestData);
 
-        // return redirect('entries')->with('flash_message', 'Entry added!');
+        return redirect('entries')->with('flash_message', 'Entry added!');
     }
 
     /**

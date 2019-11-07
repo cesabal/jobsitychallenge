@@ -3,9 +3,9 @@
 @section('content')
     <div class="container">
         <div class="row">
-            {{-- @include('admin.sidebar') --}}
+            
 
-            <div class="col-md-12">
+            <div class="col-md-9">
                 <div class="card">
                     <div class="card-header">Entries</div>
                     <div class="card-body">
@@ -38,7 +38,7 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>#</th><th>Title</th>
+                                        <th>#</th><th>Title</th><th>Author</th>
                                         
                                         @if( $userId )
                                             <th>Actions</th>
@@ -55,17 +55,37 @@
                                                 {{ $item->title }}
                                             </a>
                                         </td>
+                                        <td>{{ $item->author }}</td>
                                         {{-- <td>{{ $item->content }}</td> --}}
                                         
                                         @if( $userId )
+
                                             <td>
-                                                <a href="{{ url('/entries/' . $item->id . '/edit') }}" title="Edit Entry"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
-                                                <form method="POST" action="{{ url('/entries' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
-                                                        {{ method_field('DELETE') }}
-                                                        {{ csrf_field() }}
-                                                        <button type="submit" class="btn btn-danger btn-sm" title="Delete Entry" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
+
+                                                @can('update', $item)
+                                                    
+                                                    <a href="{{ url('/entries/' . $item->id . '/edit') }}" title="Edit Entry">
+                                                        <button class="btn btn-primary btn-sm">
+                                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                             Edit
+                                                        </button>
+                                                    </a>
+
+                                                @endcan
+
+                                                @can('delete', $item)
+                                                    <form method="POST" action="{{ url('/entries' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
+                                                            {{ method_field('DELETE') }}
+                                                            {{ csrf_field() }}
+                                                            <button type="submit" class="btn btn-danger btn-sm" title="Delete Entry" onclick="return confirm(&quot;Confirm delete?&quot;)">
+                                                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                                 Delete
+                                                            </button>
                                                     </form>
+                                                @endcan
+
                                             </td>
+
                                         @endif
 
                                     </tr>
@@ -78,6 +98,11 @@
                     </div>
                 </div>
             </div>
+
+            @if( $sidebar )
+                @include('sidebar')
+            @endif
+
         </div>
     </div>
 @endsection

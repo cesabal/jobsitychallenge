@@ -16,5 +16,7 @@ Auth::routes();
 
 // Routes of Entris and home page
 Route::get('/', 'EntriesController@index');
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'EntriesController@entriesByUser')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('entries', 'EntriesController');
+
