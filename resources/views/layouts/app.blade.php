@@ -12,9 +12,12 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    
+    <script src="{{ asset('js/jquery-confirm.min.js') }}"></script>
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/jobsitychallenge.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/jquery-confirm.min.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">

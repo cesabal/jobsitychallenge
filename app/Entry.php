@@ -27,7 +27,7 @@ class Entry extends Model
      */
     protected $fillable = ['title', 'content', 'author'];
 
-    public function user()
+    public function author()
     {
         return $this->belongsTo('App\User', 'id', 'author');
     }

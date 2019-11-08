@@ -86,6 +86,15 @@ class EntriesController extends Controller
             $entries = Entry::latest()->paginate( 3 );
         }
 
+        // Obtain name of author's entries
+        foreach( $entries as $entry )
+        {
+            $user = User::where( 'id', $entry->author )->first();
+            $entry->username = $user->name;
+        }
+
+        
+
         // Determine if display or nor sidebar
         $sidebar = true;
 
@@ -104,7 +113,6 @@ class EntriesController extends Controller
         // declare tweets and hiddenTeewts vars
         $tweets = [];
         $hiddenTweets = [];
-
 
         // get tweets of Autenticated user
         $twitterUname = Auth::user()->twitter_username;
