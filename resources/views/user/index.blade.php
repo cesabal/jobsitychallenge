@@ -24,12 +24,8 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>#</th><th>Title</th><th>Author</th>
+                                        <th>#</th><th>Title</th>
                                         
-                                        @if( $uid )
-                                            <th>Actions</th>
-                                        @endif
-
                                     </tr>
                                 </thead>
                                 

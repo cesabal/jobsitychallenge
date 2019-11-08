@@ -61,7 +61,7 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="{{ url('/user/' . $userId) }}"  title="View User">
+                                            <a href="{{ url('/user/' . $item->author) }}"  title="View User">
                                                 {{ $item->username }}
                                             </a>
                                         </td>
