@@ -6,8 +6,13 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Entry;
+use App\User;
+use App\hidden_tweets as HiddenTweets;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
+use Twitter;
 
 class EntriesController extends Controller
 {
@@ -30,6 +35,8 @@ class EntriesController extends Controller
      */
     public function index(Request $request)
     {
+        // declare tweets and hiddenTeewts vars
+        $tweets = [];
 
         // Get the currently authenticated user...
         $user = Auth::user();
@@ -42,6 +49,29 @@ class EntriesController extends Controller
 
         // Paginate this total
         $perPage = 3;
+
+        // This is for sidebar fix, the var is used to generate the hide- un-hide links
+        $twitterUname = '';
+        $tweets = \Twitter::getSearch(['q' => 'jobsitychallenge', 'count' => 20, 'format' => 'object']);
+        $tweets = $tweets->statuses;
+
+        // First must obtain, a list of hidden tweets    
+        $hiddenTweets = [];
+        $hiddenTweetsQuery = HiddenTweets::all();
+
+        foreach ( $hiddenTweetsQuery as $hiddenTweet )
+        {
+            $hiddenTweets[] = $hiddenTweet->tweetid;
+        }
+
+        // Second this list filtering the actually tweets list
+        foreach( $tweets as $key => $tweet )
+        {
+            if( in_array( $tweet->id, $hiddenTweets ) )
+            {
+                unset( $tweets[$key] );
+            }
+        }
 
         // Search content by keyword, apply on tittle, content and author fields
         if (!empty($keyword))
@@ -57,9 +87,9 @@ class EntriesController extends Controller
         }
 
         // Determine if display or nor sidebar
-        $side = false;
+        $sidebar = true;
 
-        return view('entries.index', compact('entries', 'userId', 'sidebar' ) );
+        return view('entries.index', compact('entries', 'userId', 'sidebar', 'tweets', 'twitterUname' ) );
         
     }
 
@@ -71,19 +101,41 @@ class EntriesController extends Controller
      */
     public function entriesByUser(Request $request)
     {
+        // declare tweets and hiddenTeewts vars
+        $tweets = [];
+        $hiddenTweets = [];
 
-        // Get the currently authenticated user...
-        $user = Auth::user();
 
+        // get tweets of Autenticated user
+        $twitterUname = Auth::user()->twitter_username;
+        
+        if( $twitterUname )
+        {
+            $tweets = \Twitter::getUserTimeline(['screen_name' => $twitterUname, 'count' => 20, 'format' => 'object']);
+        }
+        
         // Get the currently authenticated user's ID...
         $userId = Auth::id();
 
+        // Obtain a hidden tweets list, for this user
+        $hiddenTweetsQuery = HiddenTweets::where('userid', $userId)->get();
+
+        foreach ( $hiddenTweetsQuery as $hiddenTweet )
+        {
+            $hiddenTweets[] = $hiddenTweet->tweetid;
+        }
+
+        // Entries per page
         $perPage = 3;
         
+        // Get entries for authenticated user
         $entries = Entry::where('author', '=', "$userId")->paginate($perPage);
         
+        // Enable side bar on this view
         $sidebar = true;
-        return view('entries.index', compact('entries', 'userId', 'sidebar'));
+
+        return view('entries.index', compact('entries', 'userId', 'sidebar', 'tweets', 'twitterUname', 'hiddenTweets' ));
+
     }
 
     /**

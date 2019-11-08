@@ -4,8 +4,13 @@
     <div class="container">
         <div class="row">
             
-
-            <div class="col-md-9">
+            {{-- Adjust content if not sidebar present --}}
+            @if( $sidebar )
+                <div class="col-md-9">
+            @else
+                <div class="col-md-12">
+            @endif
+            
                 <div class="card">
                     <div class="card-header">Entries</div>
                     <div class="card-body">

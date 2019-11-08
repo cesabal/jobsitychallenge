@@ -7,10 +7,10 @@
 
             <div class="col-md-9">
                 <div class="card">
-                    <div class="card-header">Entry {{ $entry->id }}</div>
+                    <div class="card-header"><h2>{{ $entry->title }}</h2></div>
                     <div class="card-body">
 
-                        @if( $userId )
+                        @can('update', $entry)
                         
                             <a href="{{ url('/entries') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                             <a href="{{ url('/entries/' . $entry->id . '/edit') }}" title="Edit Entry"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
@@ -21,7 +21,7 @@
                                 <button type="submit" class="btn btn-danger btn-sm" title="Delete Entry" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
                             </form>
                             
-                        @endif
+                        @endcan
 
                         <br/>
                         <br/>
