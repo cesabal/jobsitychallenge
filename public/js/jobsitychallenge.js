@@ -93,15 +93,24 @@ var jobsityManager = {
 
 			type:'POST',
 			url:'/ajaxRequest',
-			data:{ tweetId:tweetId, action: 'hide' },
+			data:{ tweetId:tweetId, action: elementClickedData.action },
 			success:function( response )
 			{
 				response = response || false;
+				console.log("response", response);
 
 				// if success and tiweetid is returned the tweet hidden
 				if( response )
 				{
-					$( "#tweet-" + tweetId  ).closest('tr').fadeOut();
+					if( elementClickedData.action == 'hide' )
+					{
+						$( "#tweet-" + tweetId  ).closest('tr').fadeOut();
+					}
+					else
+					{
+						$( "#tweet-" + tweetId ).data('action', 'hide');
+						$( "#tweet-" + tweetId ).text('Hide tweet');
+					}
 				}
 			}
 

@@ -35,7 +35,7 @@ class HideTweetController extends Controller
         		break;
         	
         	case 'unhide':
-        		HiddenTweets::where('tweetid', $tweetId)->delete();
+        		$response = HiddenTweets::where('tweetid', $tweetId)->delete();
         		break;
         }
 

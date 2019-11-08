@@ -25,11 +25,11 @@
 
 		                	@if( in_array( $tweet->id, $hiddenTweets ) == false )
 
-	                        	<a id="tweet-{{ $tweet->id }}" href="javascript:void(0)" data-tweetid="{{ $tweet->id }}" class="hide-tweet">{{ 'Hide tweet' }}</a>
+	                        	<a id="tweet-{{ $tweet->id }}" href="javascript:void(0)" data-tweetid="{{ $tweet->id }}" class="hide-tweet" data-action="hide">{{ 'Hide tweet' }}</a>
 
 		                	@else
 	                        	
-		                		<a id="tweet-{{ $tweet->id }}" href="javascript:void(0)" data-tweetid="{{ $tweet->id }}" class="hide-tweet">{{ 'Un Hide tweet' }}</a>
+		                		<a id="tweet-{{ $tweet->id }}" href="javascript:void(0)" data-tweetid="{{ $tweet->id }}" class="hide-tweet" data-action="unhide">{{ 'Un Hide tweet' }}</a>
 
 		                	@endif
 
