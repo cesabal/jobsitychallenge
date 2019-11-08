@@ -35,8 +35,11 @@ INSTALL
 
 	git clone https://github.com/cesabal/jobsitychallenge.git 
 
+3. Run  the folloein command
 
-3. create database and configure this params on .env file
+	composer install
+
+4. create database and configure this params on .env file
 
 	DB_DATABASE=yourDatabaseName
 	DB_USERNAME=user
@@ -48,22 +51,22 @@ INSTALL
 	TWITTER_ACCESS_TOKEN_SECRET=thetokensecret
 
 
-2. Run the following command to migrate data base tables
+5. Run the following command to migrate data base tables
 
 	php artisan migrate
 
-3. Run the followin command to add data examples with seeders
+6. Run the followin command to add data examples with seeders
 
 	php artisan db:seed --class=UsersTableSeeder
 	php artisan db:seed --class=EntriesTableSeeder
 
-4. run the followin command to generate security key for laravel
+7. run the followin command to generate security key for laravel
 
 	php artisan key:generate
 
 
-5. Download the cesar_landazabal.jobsitychallenge.com.conf file and put it on /etc/apache2/site-available, and then execute enable it
+8. Download the cesar_landazabal.jobsitychallenge.com.conf file and put it on /etc/apache2/site-available, and then execute enable it
 
 	* make sure that the domain cesar_landazabal.jobsitychallenge.com is ersolve to your host ip, or add this in hosts file
 
-6. Go to your site
+9. Go to your site
