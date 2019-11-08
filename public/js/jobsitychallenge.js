@@ -80,7 +80,7 @@ var jobsityManager = {
 		var tweetId = elementClickedData.tweetid;
 
 		// confirm first after send the request
-		jobsityManager.confirm();
+		// jobsityManager.confirm();
 
 		$.ajaxSetup({
 	        headers: {
