@@ -6,7 +6,9 @@ The site has a login / register menu on top right, when user is logged, the user
 
 Home link is a home page and this page list the entries of all users, and paginated by 3, on side bar can display a tweets with #jobsitychallenge hashtag, is a section that display all tweets, for all users, wirh this hash tags, the hidden tweets, not displaying.
 
-Home user page, list the entries of the autenticated user in main content area, and display the lastes tweets for this user, in this area the user, can hide - unhide yuors, tweets. when a tweet is hidden, it is removed, whn the page is listing again, this tweet, appear with a unhide - link.
+"User Home" page, list the entries of the autenticated user in main content area, and display the lastes tweets for this user, in this area the user, can hide - unhide yuors, tweets. when a tweet is hidden, it is removed, whn the page is listing again, this tweet, appear with a unhide - link.  this link are over logout link
+
+Every user have a user common page, this page list the entries and view lated tweets from every user, ex user/1, user/2, the main content page with the entries list, has a link to this user page.
 
 
 REQUERIMENTS
