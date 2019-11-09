@@ -12,3 +12,13 @@
 .card-header{
 	margin: $card-header;
 }
+
+// fix tweet not displying correct
+.table-responsive>.table>tbody>tr>td,
+.table-responsive>.table>tbody>tr>th,
+.table-responsive>.table>tfoot>tr>td,
+.table-responsive>.table>tfoot>tr>th,
+.table-responsive>.table>thead>tr>td,
+.table-responsive>.table>thead>tr>th{
+	white-space: normal;
+}
